@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class ContactManagerApp {
@@ -6,6 +7,7 @@ public class ContactManagerApp {
     public static void main(String[] args) {
         ContactManager manager = new ContactManager();
         manager.loadContactsFromFile(FILE_PATH);
+        manager.getContacts().sort(Comparator.comparing(Contact::getName));
 
         Scanner sc = new Scanner(System.in);
 
@@ -73,7 +75,6 @@ public class ContactManagerApp {
 
         try {
             manager.addContact(new Contact(name, phone, email));
-            System.out.println("Contact added successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }

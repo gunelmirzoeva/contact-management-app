@@ -63,15 +63,17 @@ public class Contact {
                 .append("\nEmail: ").append(email);
         return sb.toString();
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Contact contact = (Contact) obj;
-        return Objects.equals(name, contact.name) ||
-                Objects.equals(phoneNumber, contact.phoneNumber) ||
+        return Objects.equals(name, contact.name) &&
+                Objects.equals(phoneNumber, contact.phoneNumber) &&
                 Objects.equals(email, contact.email);
     }
+
 
     @Override
     public int hashCode() {

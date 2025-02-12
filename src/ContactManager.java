@@ -7,6 +7,9 @@ public class ContactManager {
     public ContactManager() {
         contacts = new ArrayList<Contact>();
     }
+    public List<Contact> getContacts() {
+        return contacts;
+    }
     public boolean addContact(Contact contact) {
         for (Contact c : contacts) {
             if (c.equals(contact)) {
@@ -15,6 +18,7 @@ public class ContactManager {
             }
         }
         contacts.add(contact);
+        System.out.println("Contact added successfully.");
         return true;
     }
 
@@ -40,9 +44,11 @@ public class ContactManager {
         if (contacts.isEmpty()) {
             System.out.println("No contacts available.");
         } else {
+            int count = 1;
             System.out.println("\n\nCONTACTS:");
+
             for (Contact contact : contacts) {
-                System.out.println(contact);
+                System.out.println((count++) + " " + contact);
             }
         }
     }
@@ -54,17 +60,20 @@ public class ContactManager {
             return;
         }
 
+
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
+
                 String name = parts[0].trim();
-                String phone = (parts.length > 1 && !parts[1].trim().isEmpty()) ? parts[1].trim() : null;
-                String email = (parts.length > 2 && !parts[2].trim().isEmpty()) ? parts[2].trim() : null;
+                String phone = parts[1].trim().isEmpty() ? null : parts[1].trim();
+                String email = parts[2].trim().isEmpty() ? null : parts[2].trim();
 
                 try {
                     addContact(new Contact(name, phone, email));
                 } catch (IllegalArgumentException e) {
+                    System.out.println(line);
                 }
             }
             System.out.println("Contacts loaded successfully!");
@@ -72,6 +81,8 @@ public class ContactManager {
             System.out.println("Error reading contacts file: " + e.getMessage());
         }
     }
+
+
 
 
     public void saveContactsToFile(String filePath) {
